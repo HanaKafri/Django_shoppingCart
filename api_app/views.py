@@ -16,7 +16,12 @@ from rest_framework import status
 from .components import CategoryComponent
 from sqlalchemy.orm import sessionmaker
 
+    
+'''
 
+main branch
+    
+'''
 
 # to print queries sent to the DB
 logger = logging.getLogger(__name__)
@@ -86,7 +91,7 @@ class Categories_API(APIView):
         
         except ValueError as ve:
             return JsonResponse({"message": "Invalid data", "errors": str(ve)}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     
 
     # validation (required fields)
