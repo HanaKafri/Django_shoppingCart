@@ -86,38 +86,6 @@ class Categories_API(APIView):
         
         except ValueError as ve:
             return JsonResponse({"message": "Invalid data", "errors": str(ve)}, status=status.HTTP_400_BAD_REQUEST)
-
-    
-    '''
-    # validation (required fields)
-    def post(self, request):
-        schema = CategorySchema()
-        try:
-            # Specify required fields in the "required_fields" list
-            required_fields = ["name"]
-            
-            # Check if the required fields are missing in the request data
-            for field in required_fields:
-                if field not in request.data:
-                    return Response(
-                        {"message": f"Missing required field: {field}"},
-                        status=status.HTTP_400_BAD_REQUEST,
-                    )
-
-            category_data = schema.load(request.data)
-        except Exception as e:
-            return Response({"message": "Invalid data", "errors": str(e)}, status=400)
-
-        # Create a new category instance and add it to the database
-        new_category = Category(**category_data)
-        db_session.add(new_category) # add data to session
-        db_session.commit() # to add everything in the session to the database
-
-        # Serialize the newly created category and return it in the response
-        result = schema.dump(new_category)
-        return JsonResponse(result, status=201)
-
-    '''
     
     
 
