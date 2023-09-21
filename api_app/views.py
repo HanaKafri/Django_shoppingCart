@@ -56,9 +56,39 @@ class Categories_API(APIView):
         return JsonResponse(result, safe=False)
     
     
+    def post(self, request):
+        
+        schema = CategorySchema()
+        
+        try:
+            # Specify required fields in the "required_fields" list
+            required_fields = ["name"]
+            
+            # Check if the required fields are missing in the request data
+            for field in required_fields:
+                if field not in request.data:
+                    return Response(
+                        {"message": f"Missing required field: {field}"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+            category_data = schema.load(request.data)
+        except Exception as e:
+            return Response({"message": "Invalid data", "errors": str(e)}, status=400)
+        
+        
+        try:
+            
+            new_category = CategoryComponent(db_session).create_category(category_data)
+
+            result = schema.dump(new_category)
+            return JsonResponse(result, status=status.HTTP_201_CREATED)
+        
+        except ValueError as ve:
+            return JsonResponse({"message": "Invalid data", "errors": str(ve)}, status=status.HTTP_400_BAD_REQUEST)
 
     
-    
+    '''
     # validation (required fields)
     def post(self, request):
         schema = CategorySchema()
@@ -87,7 +117,7 @@ class Categories_API(APIView):
         result = schema.dump(new_category)
         return JsonResponse(result, status=201)
 
-    
+    '''
     
     
 
